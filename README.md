@@ -1,4 +1,4 @@
-# Ghidra System Map exporter
+# Ghidra Device Tree Blob
 
 [![Build](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/main.yml/badge.svg)](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/main.yml)
 
