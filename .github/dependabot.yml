@@ -5,3 +5,10 @@ updates:
     target-branch: "main"
     schedule:
       interval: "weekly"
+
+
+  - package-ecosystem: "gradle"
+    directory: "/"
+    target-branch: "main"
+    schedule:
+      interval: "weekly"
