@@ -4,7 +4,7 @@ permissions:
   contents: write
 
 jobs:
-  build_for_ghidra:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -27,8 +27,9 @@ jobs:
         java-version: '17'
 
     - name: Install Ghidra ${{ matrix.version }}
-      uses: antoniovazquezblanco/setup-ghidra@v1.1.0
+      uses: antoniovazquezblanco/setup-ghidra@v1.2.0
       with:
+        auth_token: ${{ secrets.GITHUB_TOKEN }}
         version: ${{ matrix.ghidra }}
 
     - name: Build the extension for Ghidra ${{ matrix.version }}
