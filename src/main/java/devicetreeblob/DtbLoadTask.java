@@ -2,14 +2,13 @@ package devicetreeblob;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import devicetreeblob.DtbParser.Block;
-import devicetreeblob.DtbParser.Block.Reg;
+import devicetreeblob.parser.DtbBlock;
+import devicetreeblob.parser.DtbParser;
+import devicetreeblob.parser.DtbRegion;
 import ghidra.framework.store.LockException;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressOverflowException;
@@ -52,12 +51,12 @@ public class DtbLoadTask extends Task {
 
 		monitor.setMessage("Filtering unwanted DTB blocks...");
 		monitor.checkCancelled();
-		List<Block> memBlocks = filterUnwantedBlocks(dtb.mBlocks);
+		List<DtbBlock> memBlocks = filterUnwantedBlocks(dtb.getBlocks());
 
 		monitor.setMessage("Creating regions in memory...");
 		monitor.checkCancelled();
-		for (Block block : memBlocks)
-			for (Reg region : block.getRegs()) {
+		for (DtbBlock block : memBlocks)
+			for (DtbRegion region : block.getRegions()) {
 				String name = getBlockRegionName(block, region);
 				monitor.setMessage("Processing " + name + "...");
 				monitor.checkCancelled();
@@ -65,16 +64,16 @@ public class DtbLoadTask extends Task {
 			}
 	}
 
-	private List<Block> filterUnwantedBlocks(List<Block> blocks) {
-		return blocks.stream().filter(x -> (!x.name().equalsIgnoreCase("cpu") && x.hasRegs()))
+	private List<DtbBlock> filterUnwantedBlocks(List<DtbBlock> blocks) {
+		return blocks.stream().filter(x -> (!x.getName().equalsIgnoreCase("cpu") && x.hasRegions()))
 				.collect(Collectors.toList());
 	}
 
-	private String getBlockRegionName(Block block, Reg region) {
-		return block.name() + ((region.name != null) ? ("_" + region.name) : "");
+	private String getBlockRegionName(DtbBlock block, DtbRegion region) {
+		return block.getName() + ((region.name != null) ? ("_" + region.name) : "");
 	}
 
-	private void processBlockRegion(String name, Block block, Reg region) {
+	private void processBlockRegion(String name, DtbBlock block, DtbRegion region) {
 		Address addr = mAddrSpace.getAddress(region.addr);
 		int transactionId = mProgram.startTransaction("Device Tree Blob memory block creation");
 		boolean ok = createMemoryRegion(mMemory, name, addr, region.size);
