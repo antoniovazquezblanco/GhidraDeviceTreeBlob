@@ -35,7 +35,6 @@ import ghidra.program.model.address.AddressSpace;
 import ghidra.program.model.data.DataTypeConflictHandler;
 import ghidra.program.model.data.ProgramBasedDataTypeManager;
 import ghidra.program.model.data.StructureDataType;
-import ghidra.program.model.data.UnsignedLongDataType;
 import ghidra.program.model.listing.Listing;
 import ghidra.program.model.listing.Program;
 import ghidra.program.model.mem.Memory;
