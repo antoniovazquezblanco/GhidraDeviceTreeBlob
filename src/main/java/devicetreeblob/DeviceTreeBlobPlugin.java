@@ -21,23 +21,18 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.swing.JComponent;
-
 import devicetreeblob.DtbParser.Block;
 import devicetreeblob.DtbParser.Block.Reg;
 import docking.action.builder.ActionBuilder;
 import docking.tool.ToolConstants;
-import docking.widgets.filechooser.GhidraFileChooser;
-import docking.widgets.filechooser.GhidraFileChooserMode;
 import ghidra.app.CorePluginPackage;
 import ghidra.app.context.ProgramActionContext;
+import ghidra.app.plugin.PluginCategoryNames;
 import ghidra.app.plugin.ProgramPlugin;
 import ghidra.app.plugin.core.analysis.AutoAnalysisManager;
-import ghidra.app.plugin.PluginCategoryNames;
 import ghidra.framework.plugintool.PluginInfo;
 import ghidra.framework.plugintool.PluginTool;
 import ghidra.framework.plugintool.util.PluginStatus;
-import ghidra.framework.preferences.Preferences;
 import ghidra.framework.store.LockException;
 import ghidra.program.model.address.Address;
 import ghidra.program.model.address.AddressOverflowException;
@@ -47,7 +42,6 @@ import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
 import ghidra.program.model.mem.MemoryConflictException;
 import ghidra.util.Msg;
-import ghidra.util.filechooser.ExtensionFileFilter;
 
 //@formatter:off
 @PluginInfo(
@@ -60,7 +54,6 @@ import ghidra.util.filechooser.ExtensionFileFilter;
 //@formatter:on
 public class DeviceTreeBlobPlugin extends ProgramPlugin {
 	public static final String NAME = "Device Tree Blob";
-	private static final String LAST_DTBFILE_PREFERENCE_KEY = "Dtb.LastFile";
 
 	public DeviceTreeBlobPlugin(PluginTool tool) {
 		super(tool);
@@ -81,7 +74,7 @@ public class DeviceTreeBlobPlugin extends ProgramPlugin {
 			return;
 		}
 
-		File file = getDtbFileFromDialog(pac.getComponentProvider().getComponent());
+		File file = DtbFileDialog.getDtbFileFromDialog(pac.getComponentProvider().getComponent());
 		if (file == null)
 			return;
 
@@ -139,28 +132,4 @@ public class DeviceTreeBlobPlugin extends ProgramPlugin {
 		}
 		return false;
 	}
-
-	private File getDtbFileFromDialog(JComponent parent) {
-		GhidraFileChooser chooser = new GhidraFileChooser(parent);
-		chooser.addFileFilter(ExtensionFileFilter.forExtensions("Device Tree Blobs", "dtb"));
-		chooser.setMultiSelectionEnabled(false);
-		chooser.setApproveButtonText("Choose");
-		chooser.setFileSelectionMode(GhidraFileChooserMode.FILES_ONLY);
-		chooser.setTitle("Select DTB");
-
-		String lastFile = Preferences.getProperty(LAST_DTBFILE_PREFERENCE_KEY);
-		if (lastFile != null) {
-			chooser.setSelectedFile(new File(lastFile));
-		}
-
-		File file = chooser.getSelectedFile();
-		chooser.dispose();
-
-		if (file == null || !file.isFile())
-			return null;
-
-		Preferences.setProperty(LAST_DTBFILE_PREFERENCE_KEY, file.getPath());
-		return file;
-	}
-
 }
