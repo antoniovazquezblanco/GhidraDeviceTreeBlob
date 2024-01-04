@@ -73,12 +73,15 @@ public class DeviceTreeBlobPlugin extends ProgramPlugin {
 			Msg.showWarn(getClass(), null, "Load PDB", "Unable to load PDB file while analysis is running.");
 			return;
 		}
+		
+		tool.setStatusInfo("Loading DTB.");
 
 		File file = DtbFileDialog.getDtbFileFromDialog(pac.getComponentProvider().getComponent());
-		if (file == null)
+		if (file == null) {
+			tool.setStatusInfo("DTB loading was cancelled.");
 			return;
+		}
 
-		Msg.info(getClass(), "Loading " + file.getPath());
 		DtbParser dtb;
 		try {
 			dtb = new DtbParser(file);
@@ -103,6 +106,8 @@ public class DeviceTreeBlobPlugin extends ProgramPlugin {
 				boolean ok = createMemoryRegion(memory, reg_name, addr, region.size);
 				program.endTransaction(transactionId, ok);
 			}
+		
+		tool.setStatusInfo("DTB loader finished.");
 	}
 
 	private boolean createMemoryRegion(Memory memory, String name, Address addr, Long size) {
