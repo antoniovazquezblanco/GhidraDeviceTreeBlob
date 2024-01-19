@@ -4,7 +4,7 @@
 
 Import Device Tree Information onto your Ghidra memory map. This is usefull when reversing firmware from propietary devices that do not publish SVD files.
 
-If you have SVD files for your device, I recommend you try [SVD Loader Ghidra](https://github.com/leveldown-security/SVD-Loader-Ghidra).
+If you have SVD files for your device, I recommend you try  [GhidraSVD](https://github.com/antoniovazquezblanco/GhidraSVD).
 
 
 ## Installing
