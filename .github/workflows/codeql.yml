@@ -34,7 +34,7 @@ jobs:
         java-version: '17'
 
     - name: Install Ghidra
-      uses: antoniovazquezblanco/setup-ghidra@v1.2.1
+      uses: antoniovazquezblanco/setup-ghidra@v1.2.2
       with:
         auth_token: ${{ secrets.GITHUB_TOKEN }}
 
