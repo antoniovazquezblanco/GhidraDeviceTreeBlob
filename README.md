@@ -9,9 +9,9 @@ If you have SVD files for your device, I recommend you try  [GhidraSVD](https://
 
 ## Installing
 
-Go to the [releases page](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/releases) and download the latest version for your Ghidra distribution.
+This extension is available for installation via the [Ghidra Extension Manager](https://github.com/antoniovazquezblanco/GhidraExtensionManager).
 
-In Ghidra main window go to `File` > `Install extensions...`. In the new window press the `+` icon to import the downloaded zip.
+You may also install this extension by going to the [releases page](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/releases) and downloading the latest version for your Ghidra distribution. In order to install from the release, in Ghidra main window go to `File` > `Install extensions...`. In the new window press the `+` icon to import the downloaded zip.
 
 
 ## Usage
@@ -43,10 +43,9 @@ git clone git@github.com:antoniovazquezblanco/GhidraDeviceTreeBlob.git
 
 In Eclipse:
 1. Click on `File` > `Import...`.
-2. In the dialog click on `General` > `Projects from Folder or Archive` > `Next`.
-3. Click on `Directory...` and select the `GhidraDeviceTreeBlob` folder you have just cloned.
-4. Click on `Finish`.
-5. Right click on the just imported project `GhidraDev` > `Link Ghidra...`.
-6. Select your desired Ghidra installation and click on `Finish`.
+2. In the dialog click on `Ghidra` > `Ghidra Module Source`.
+3. Select the `GhidraDeviceTreeBlob` folder you have just cloned.
+4. Select a valid Ghidra installation to develop against.
+5. Click on `Finish`.
 
 You are now ready to develop!
