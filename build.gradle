@@ -55,5 +55,5 @@ dependencies {
 	implementation 'io.kaitai:kaitai-struct-runtime:0.10'
 }
 
-// Exclude additional files from the built extension
-// Ex: buildExtension.exclude '.idea/**'
+buildExtension.exclude '.github/'
+buildExtension.exclude 'README.md'
