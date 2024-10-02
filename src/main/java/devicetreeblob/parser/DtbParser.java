@@ -25,10 +25,16 @@ import devicetreeblob.parser.Dtb.FdtBeginNode;
 import devicetreeblob.parser.Dtb.FdtBlock;
 import devicetreeblob.parser.Dtb.FdtNode;
 import devicetreeblob.parser.Dtb.FdtProp;
+import io.kaitai.struct.ByteBufferKaitaiStream;
 
 public class DtbParser {
 
 	private ArrayList<DtbBlock> mBlocks;
+
+	public DtbParser(byte[] bytes) throws ParseException {
+		mBlocks = new ArrayList<DtbBlock>();
+		parseBlocks(new Dtb(new ByteBufferKaitaiStream(bytes)));
+	}
 
 	public DtbParser(File file) throws IOException, ParseException {
 		mBlocks = new ArrayList<DtbBlock>();

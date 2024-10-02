@@ -15,9 +15,6 @@
  */
 package devicetreeblob;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,15 +49,15 @@ import ghidra.util.task.Task;
 import ghidra.util.task.TaskMonitor;
 
 public class DtbLoadTask extends Task {
-	private File mFile;
+	private DtbParser mDtbParser;
 	private Program mProgram;
 	private Memory mMemory;
 	private SymbolTable mSymTable;
 	private AddressSpace mAddrSpace;
 
-	public DtbLoadTask(Program program, File file) {
+	public DtbLoadTask(Program program, DtbParser dtbparser) {
 		super("Load DTB", true, false, true, true);
-		mFile = file;
+		mDtbParser = dtbparser;
 		mProgram = program;
 		mMemory = program.getMemory();
 		mSymTable = program.getSymbolTable();
@@ -69,20 +66,12 @@ public class DtbLoadTask extends Task {
 
 	@Override
 	public void run(TaskMonitor monitor) throws CancelledException {
-		monitor.setMessage("Loading " + mFile.getPath() + "...");
+		monitor.setMessage("Loading DTB...");
 		monitor.checkCancelled();
-
-		DtbParser dtb;
-		try {
-			dtb = new DtbParser(mFile);
-		} catch (IOException | ParseException e) {
-			Msg.error(getClass(), "Could not parse DTB file!", e);
-			return;
-		}
 
 		monitor.setMessage("Filtering unwanted DTB blocks...");
 		monitor.checkCancelled();
-		List<DtbBlock> memBlocks = filterUnwantedBlocks(dtb.getBlocks());
+		List<DtbBlock> memBlocks = filterUnwantedBlocks(mDtbParser.getBlocks());
 
 		monitor.setMessage("Creating candidate blocks from DTB file...");
 		monitor.checkCancelled();
@@ -168,8 +157,8 @@ public class DtbLoadTask extends Task {
 		int transactionId = mProgram.startTransaction("DTB memory block creation");
 		boolean ok = false;
 		try {
-			MemoryBlock memBlock = mMemory.createUninitializedBlock(blockInfo.name, addr, blockInfo.block.getSize().longValue(),
-					false);
+			MemoryBlock memBlock = mMemory.createUninitializedBlock(blockInfo.name, addr,
+					blockInfo.block.getSize().longValue(), false);
 			memBlock.setRead(blockInfo.isReadable);
 			memBlock.setWrite(blockInfo.isWritable);
 			memBlock.setExecute(blockInfo.isExecutable);
@@ -193,12 +182,11 @@ public class DtbLoadTask extends Task {
 	}
 
 	private void updateMatchingMemoryBlock(MemoryBlock collidingMemoryBlock, BlockInfo blockInfo) {
-		if (!collidingMemoryBlock.getName().equals(blockInfo.name)
-				&& OptionDialog.showYesNoDialog(null, "Load DTB",
-						"An existing memory block with name \"" + collidingMemoryBlock.getName()
-								+ "\" is in the same region as the \"" + blockInfo.name
-								+ "\" peripheral. Do you want to rename it to \"" + blockInfo.name
-								+ "\"?") == OptionDialog.OPTION_ONE) {
+		if (!collidingMemoryBlock.getName().equals(blockInfo.name) && OptionDialog.showYesNoDialog(null, "Load DTB",
+				"An existing memory block with name \"" + collidingMemoryBlock.getName()
+						+ "\" is in the same region as the \"" + blockInfo.name
+						+ "\" peripheral. Do you want to rename it to \"" + blockInfo.name
+						+ "\"?") == OptionDialog.OPTION_ONE) {
 			int transactionId = mProgram.startTransaction("DTB memory block rename");
 			boolean ok = false;
 			try {
@@ -210,8 +198,7 @@ public class DtbLoadTask extends Task {
 			}
 			mProgram.endTransaction(transactionId, ok);
 		}
-		if (collidingMemoryBlock.isRead() != blockInfo.isReadable && OptionDialog.showYesNoDialog(null,
-				"Load DTB",
+		if (collidingMemoryBlock.isRead() != blockInfo.isReadable && OptionDialog.showYesNoDialog(null, "Load DTB",
 				"Memory block \"" + collidingMemoryBlock.getName() + "\" is marked as"
 						+ ((!collidingMemoryBlock.isRead()) ? " non" : "")
 						+ " readable. The DTB file suggests it should be"
@@ -230,8 +217,7 @@ public class DtbLoadTask extends Task {
 			mProgram.endTransaction(transactionId, ok);
 		}
 
-		if (collidingMemoryBlock.isWrite() != blockInfo.isWritable && OptionDialog.showYesNoDialog(null,
-				"Load DTB",
+		if (collidingMemoryBlock.isWrite() != blockInfo.isWritable && OptionDialog.showYesNoDialog(null, "Load DTB",
 				"Memory block \"" + collidingMemoryBlock.getName() + "\" is marked as"
 						+ ((!collidingMemoryBlock.isWrite()) ? " non" : "")
 						+ " writable. The DTB file suggests it should be"
@@ -250,8 +236,7 @@ public class DtbLoadTask extends Task {
 			mProgram.endTransaction(transactionId, ok);
 		}
 
-		if (collidingMemoryBlock.isExecute() != blockInfo.isExecutable && OptionDialog.showYesNoDialog(null,
-				"Load DTB",
+		if (collidingMemoryBlock.isExecute() != blockInfo.isExecutable && OptionDialog.showYesNoDialog(null, "Load DTB",
 				"Memory block \"" + collidingMemoryBlock.getName() + "\" is marked as"
 						+ ((!collidingMemoryBlock.isExecute()) ? " non" : "")
 						+ " executable. The DTB file suggests it should be"
@@ -271,8 +256,7 @@ public class DtbLoadTask extends Task {
 			mProgram.endTransaction(transactionId, ok);
 		}
 
-		if (collidingMemoryBlock.isVolatile() != blockInfo.isVolatile && OptionDialog.showYesNoDialog(null,
-				"Load DTB",
+		if (collidingMemoryBlock.isVolatile() != blockInfo.isVolatile && OptionDialog.showYesNoDialog(null, "Load DTB",
 				"Memory block \"" + collidingMemoryBlock.getName() + "\" is marked as"
 						+ ((!collidingMemoryBlock.isVolatile()) ? " non" : "")
 						+ " volatile. The DTB file suggests it should be"

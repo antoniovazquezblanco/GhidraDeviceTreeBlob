@@ -16,9 +16,12 @@
 package devicetreeblob;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 
 import javax.swing.SwingConstants;
 
+import devicetreeblob.parser.DtbParser;
 import docking.action.builder.ActionBuilder;
 import docking.tool.ToolConstants;
 import ghidra.app.CorePluginPackage;
@@ -73,7 +76,14 @@ public class DeviceTreeBlobPlugin extends ProgramPlugin {
 			return;
 		}
 
-		DtbLoadTask loadTask = new DtbLoadTask(program, file);
+		DtbParser parser;
+		try {
+			parser = new DtbParser(file);
+		} catch (IOException | ParseException e) {
+			Msg.showError(getClass(), null, "Load PDB", "Unable to load PDB file while analysis is running.", e);
+			return;
+		}
+		DtbLoadTask loadTask = new DtbLoadTask(program, parser);
 		TaskBuilder.withTask(loadTask).setStatusTextAlignment(SwingConstants.LEADING).setLaunchDelay(0);
 		new TaskLauncher(loadTask);
 
