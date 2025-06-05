@@ -62,6 +62,8 @@ public class DtbBlock {
 			return;
 		for (DtbRegion r : regs) {
 			int pos = indexOf(regNames, 0);
+			if (pos == -1)
+				break;
 			r.name = new String(Arrays.copyOfRange(regNames, 0, pos), StandardCharsets.UTF_8);
 			regNames = Arrays.copyOfRange(regNames, pos+1, regNames.length);
 		}
