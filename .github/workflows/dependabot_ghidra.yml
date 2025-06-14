@@ -1,5 +1,6 @@
 name: Dependabot for Ghidra
 on:
+  workflow_dispatch:
   schedule:
     - cron: '17 12 * * 6'
 
