@@ -13,6 +13,11 @@ jobs:
     name: Dependabot for Ghidra
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
       - name: Check and update Ghidra versions
         uses: antoniovazquezblanco/setup-ghidra-update@v0.0.2
         with:
