@@ -9,11 +9,12 @@ permissions:
   pull-requests: write
 
 jobs:
-  dependabot_build:
+  dependabot_ghidra:
+    name: Dependabot for Ghidra
     runs-on: ubuntu-latest
     steps:
       - name: Check and update Ghidra versions
-        uses: antoniovazquezblanco/setup-ghidra-update@v0.0.1
+        uses: antoniovazquezblanco/setup-ghidra-update@v0.0.2
         with:
           auth_token: ${{ secrets.GITHUB_TOKEN }}
 
