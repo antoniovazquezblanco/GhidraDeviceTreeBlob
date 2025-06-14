@@ -1,0 +1,28 @@
+name: Dependabot for Ghidra
+on:
+  schedule:
+    - cron: '17 12 * * 6'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dependabot_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check and update Ghidra versions
+        uses: antoniovazquezblanco/setup-ghidra-update@v0.0.1
+        with:
+          auth_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: '.github/'
+          branch: dependabot_setup_ghidra
+          delete-branch: true
+          title: 'Bump Ghidra version'
+          labels: |
+            dependencies
+            github_actions
