@@ -52,7 +52,7 @@ repositories {
 }
 
 dependencies {
-	implementation 'io.kaitai:kaitai-struct-runtime:0.10'
+	implementation 'io.kaitai:kaitai-struct-runtime:0.11'
 }
 
 buildExtension.exclude '.github/'
