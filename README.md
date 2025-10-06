@@ -3,6 +3,10 @@
 [![Build](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/main.yml/badge.svg)](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/main.yml)
 [![CodeQL](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/codeql.yml/badge.svg)](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/codeql.yml)
 
+<p align="center">
+  <img width="400" src="doc/logo.png" alt="A fierce dragon looking with intent at a Linux penguin holding a binary tree.">
+</p>
+
 Import Device Tree Information onto your Ghidra memory map. This is usefull when reversing firmware from propietary devices that do not publish SVD files.
 
 If you have SVD files for your device, I recommend you try [GhidraSVD](https://github.com/antoniovazquezblanco/GhidraSVD).
