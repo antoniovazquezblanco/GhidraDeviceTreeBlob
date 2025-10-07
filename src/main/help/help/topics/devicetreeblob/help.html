@@ -6,22 +6,62 @@
     <LINK rel="stylesheet" type="text/css" href="help/shared/DefaultStyle.css">
   </HEAD>
 
-  <BODY>
-    <H1><a name="DeviceTreeBlob"></a>Device Tree Blob Importer</H1>
+   <BODY>
+     <H1><a name="DeviceTreeBlob"></a>Device Tree Blob Importer</H1>
 
-    <P>
-    The <I>Device Tree Blob Importer</I> reconstructs memory map information
-    from flattened device tree files (DTB or FDT files).
-    </P>
+     <P>
+     The <I>Device Tree Blob Importer</I> reconstructs memory map information
+     from flattened device tree files (DTB or FDT files). Device Tree Blobs are
+     binary representations of device tree source files used in embedded systems
+     to describe hardware components and their memory mappings.
+     </P>
 
-    <P>
-    In order to import memory map information from device tree files, use the
-    <B>Import DTB...</B> item in the <B>File</B> menu.
-    </P>
-    
-    <P align="left" class="providedbyplugin">
-    Provided by: <I>GhidraDeviceTreeBlob</I> plugin
-    </P>
+     <H2>Usage</H2>
+     <P>
+     In order to import memory map information from device tree files, use the
+     <B>Load DTB File...</B> item in the <B>File</B> menu. Select the DTB file
+     from the file dialog, and the plugin will automatically parse the file and
+     update the program's memory map.
+     </P>
+
+     <H2>What the Plugin Does</H2>
+     <P>
+     When a DTB file is loaded, the plugin performs the following actions:
+     </P>
+     <UL>
+       <LI>Parses the DTB file to extract memory regions and peripheral information</LI>
+       <LI>Creates or updates memory blocks in Ghidra's memory map with appropriate properties (read/write/execute/volatile)</LI>
+       <LI>Adds symbols for peripheral blocks in the "Peripherals" namespace</LI>
+       <LI>Creates data type structures for peripheral registers</LI>
+       <LI>Applies data types to the corresponding memory locations</LI>
+     </UL>
+
+     <H2>Memory Block Properties</H2>
+     <P>
+     Memory blocks are created with properties inferred from the DTB:
+     </P>
+     <UL>
+       <LI><B>Readable/Writable:</B> All blocks are marked as readable and writable</LI>
+       <LI><B>Executable:</B> Blocks containing "RAM" or "memory" in their name are marked executable</LI>
+       <LI><B>Volatile:</B> Non-executable blocks are marked as volatile</LI>
+     </UL>
+
+     <H2>Conflict Resolution</H2>
+     <P>
+     If a DTB memory region conflicts with an existing memory block:
+     </P>
+     <UL>
+       <LI>If the regions are identical, the plugin may prompt to update the block's name and properties</LI>
+       <LI>If there are conflicts, the plugin will skip creating the conflicting region and display a warning</LI>
+     </UL>
+
+     <P>
+     <B>Note:</B> The plugin cannot load DTB files while auto-analysis is running.
+     </P>
+
+     <P align="left" class="providedbyplugin">
+     Provided by: <I>GhidraDeviceTreeBlob</I> plugin
+     </P>
     <P>&nbsp;</P>
     <BR>
     <BR>
