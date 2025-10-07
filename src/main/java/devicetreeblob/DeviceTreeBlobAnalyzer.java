@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 
 import devicetreeblob.parser.Dtb;
 import devicetreeblob.parser.DtbParser;
+import devicetreeblob.DtbDataTypeLoadTask;
 import ghidra.app.services.AbstractAnalyzer;
 import ghidra.app.services.AnalyzerType;
 import ghidra.app.util.importer.MessageLog;
@@ -87,14 +88,18 @@ public class DeviceTreeBlobAnalyzer extends AbstractAnalyzer {
 		if (read < len)
 			throw new ParseException("Not enough bytes to parse DTB.", read);
 
+		// Parse the DTB
 		DtbParser parser = new DtbParser(bytes);
 
+		// Create and assign data types for the DTB structure itself
+		DtbDataTypeLoadTask dataTypeTask = new DtbDataTypeLoadTask(program, addr, len);
+		TaskBuilder.withTask(dataTypeTask).setStatusTextAlignment(SwingConstants.LEADING).setLaunchDelay(0);
+		new TaskLauncher(dataTypeTask);
+
+		// Create memory map
 		DtbMemoryMapLoadTask loadTask = new DtbMemoryMapLoadTask(program, parser);
 		TaskBuilder.withTask(loadTask).setStatusTextAlignment(SwingConstants.LEADING).setLaunchDelay(0);
-
 		new TaskLauncher(loadTask);
-
-		// TODO Create a DTB byte array in memory
 	}
 
 	private int parseDtbLength(Program program, Address addr) throws MemoryAccessException, ParseException {
