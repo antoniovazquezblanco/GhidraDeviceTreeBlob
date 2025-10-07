@@ -66,7 +66,9 @@ public class DeviceTreeBlobAnalyzer extends AbstractAnalyzer {
 				monitor.setMessage(String.format("Checking DTB signatures in %s...", found_addr.toString()));
 				try {
 					parseDtb(program, found_addr);
-				} catch (MemoryAccessException | ParseException e) {
+				} catch (ParseException e) {
+					Msg.info(getClass(), String.format("Wrong DTB format at %s: %s", found_addr.toString(), e.getMessage()));
+				} catch (MemoryAccessException e) {
 					Msg.error(getClass(), "Could not parse DTB file!", e);
 				}
 				search_from = found_addr.next();
