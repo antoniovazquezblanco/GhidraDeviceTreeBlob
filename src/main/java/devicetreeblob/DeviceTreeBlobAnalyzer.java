@@ -21,7 +21,6 @@ import javax.swing.SwingConstants;
 
 import devicetreeblob.parser.Dtb;
 import devicetreeblob.parser.DtbParser;
-import devicetreeblob.DtbDataTypeLoadTask;
 import ghidra.app.services.AbstractAnalyzer;
 import ghidra.app.services.AnalyzerType;
 import ghidra.app.util.importer.MessageLog;
