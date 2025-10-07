@@ -83,7 +83,7 @@ public class DeviceTreeBlobPlugin extends ProgramPlugin {
 			Msg.showError(getClass(), null, "Load PDB", "Unable to load PDB file while analysis is running.", e);
 			return;
 		}
-		DtbLoadTask loadTask = new DtbLoadTask(program, parser);
+		DtbMemoryMapLoadTask loadTask = new DtbMemoryMapLoadTask(program, parser);
 		TaskBuilder.withTask(loadTask).setStatusTextAlignment(SwingConstants.LEADING).setLaunchDelay(0);
 		new TaskLauncher(loadTask);
 

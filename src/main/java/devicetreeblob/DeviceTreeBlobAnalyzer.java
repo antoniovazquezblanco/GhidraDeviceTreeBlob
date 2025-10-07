@@ -87,7 +87,7 @@ public class DeviceTreeBlobAnalyzer extends AbstractAnalyzer {
 
 		DtbParser parser = new DtbParser(bytes);
 
-		DtbLoadTask loadTask = new DtbLoadTask(program, parser);
+		DtbMemoryMapLoadTask loadTask = new DtbMemoryMapLoadTask(program, parser);
 		TaskBuilder.withTask(loadTask).setStatusTextAlignment(SwingConstants.LEADING).setLaunchDelay(0);
 
 		new TaskLauncher(loadTask);

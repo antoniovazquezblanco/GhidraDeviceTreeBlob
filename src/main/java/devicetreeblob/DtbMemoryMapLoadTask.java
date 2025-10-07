@@ -48,14 +48,14 @@ import ghidra.util.exception.InvalidInputException;
 import ghidra.util.task.Task;
 import ghidra.util.task.TaskMonitor;
 
-public class DtbLoadTask extends Task {
+public class DtbMemoryMapLoadTask extends Task {
 	private DtbParser mDtbParser;
 	private Program mProgram;
 	private Memory mMemory;
 	private SymbolTable mSymTable;
 	private AddressSpace mAddrSpace;
 
-	public DtbLoadTask(Program program, DtbParser dtbparser) {
+	public DtbMemoryMapLoadTask(Program program, DtbParser dtbparser) {
 		super("Load DTB", true, false, true, true);
 		mDtbParser = dtbparser;
 		mProgram = program;
