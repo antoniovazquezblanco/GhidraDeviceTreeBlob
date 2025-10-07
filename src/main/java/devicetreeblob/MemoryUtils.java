@@ -17,6 +17,7 @@ package devicetreeblob;
 
 import java.util.Arrays;
 
+import devicetreeblob.model.Block;
 import ghidra.program.model.mem.Memory;
 import ghidra.program.model.mem.MemoryBlock;
 

@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import devicetreeblob.MemoryUtils.MemRangeRelation;
+import devicetreeblob.model.Block;
+import devicetreeblob.model.BlockInfo;
 import devicetreeblob.parser.DtbBlock;
 import devicetreeblob.parser.DtbParser;
 import devicetreeblob.parser.DtbRegion;
