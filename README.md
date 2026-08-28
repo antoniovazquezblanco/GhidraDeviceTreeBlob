@@ -2,6 +2,7 @@
 
 [![Build](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/main.yml/badge.svg)](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/main.yml)
 [![CodeQL](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/codeql.yml/badge.svg)](https://github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/antoniovazquezblanco/GhidraDeviceTreeBlob/badge)](https://scorecard.dev/viewer/?uri=github.com/antoniovazquezblanco/GhidraDeviceTreeBlob)
 
 <p align="center">
   <img width="400" src="doc/logo.png" alt="A fierce dragon looking with intent at a Linux penguin holding a binary tree.">
